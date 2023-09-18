@@ -9,6 +9,11 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      - name: Cache dependencies #caching dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm #path that poin to folder should catched
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json')}} #incase the package-lock.json(specify all the dependicies), changes, hashkey will be different and will trigger reinstallation of depencies
       - name: Install dependencies
         run: npm ci
       - name: Lint code
@@ -21,6 +26,11 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~./npm
+          key: deps-node-module-${{hashFiles('**/package-lock.json')}}
       - name: Install dependencies
         run: npm ci
       - name: Build website
